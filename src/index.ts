@@ -10,3 +10,6 @@
 
 export * from './oauth-core.js';
 export * from './types.js';
+export * from './regions.js';
+export * from './vm-config.js';
+export * from './vm-manager.js';
