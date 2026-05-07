@@ -13,3 +13,4 @@ export * from './types.js';
 export * from './regions.js';
 export * from './vm-config.js';
 export * from './vm-manager.js';
+export * from './global-auth.js';
