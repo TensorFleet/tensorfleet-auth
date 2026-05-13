@@ -1,4 +1,5 @@
-import { extractUserProfile, isTokenExpired, isValidJwtShape, type UserProfile } from "./oauth-core";
+import { extractUserProfile, isTokenExpired, isValidJwtShape } from "./oauth-core";
+import type { UserProfile } from "./types.js";
 
 export const TENSORFLEET_AUTH_GLOBAL_KEY = Symbol.for("tensorfleet.auth");
 
