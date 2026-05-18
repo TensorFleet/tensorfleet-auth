@@ -9,9 +9,9 @@ export function getConfig<T = unknown>(key: string): T | undefined {
   if (configStore.has(key)) {
     return configStore.get(key) as T | undefined;
   }
-  // Fall back to window globals (set by extension)
-  if (typeof window !== 'undefined' && key in window) {
-    return (window as any)[key] as T | undefined;
+  // Fall back to runtime globals (set by extension or CLI host)
+  if (key in globalThis) {
+    return (globalThis as any)[key] as T | undefined;
   }
   return undefined;
 }
