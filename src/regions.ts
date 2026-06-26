@@ -70,7 +70,11 @@ export function getRegionOrDefault(regionId: string | undefined, includeDevOnly 
   if (regionId && availableRegions[regionId]) {
     return availableRegions[regionId];
   }
-  return availableRegions[DEFAULT_REGION] ?? REGIONS[DEFAULT_REGION];
+  const defaultRegion = availableRegions[DEFAULT_REGION] ?? REGIONS[DEFAULT_REGION];
+  if (!defaultRegion) {
+    throw new Error(`Default region is not configured: ${DEFAULT_REGION}`);
+  }
+  return defaultRegion;
 }
 
 export function resolveRegionId(regionId: string | undefined, includeDevOnly = false): string {
