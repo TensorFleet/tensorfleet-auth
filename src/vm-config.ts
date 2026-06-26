@@ -125,8 +125,13 @@ export function getDefaultConfig(): VMConfig {
   if (!config) {
     // Fallback to first available config if default is missing
     const firstConfigId = Object.keys(VM_CONFIGS)[0];
-    const fallbackConfig = VM_CONFIGS[firstConfigId];
-    if (fallbackConfig) {
+    if (firstConfigId) {
+      const fallbackConfig = VM_CONFIGS[firstConfigId];
+      if (fallbackConfig) {
+        return fallbackConfig;
+      }
+    }
+    for (const fallbackConfig of Object.values(VM_CONFIGS)) {
       return fallbackConfig;
     }
     throw new Error('No VM configurations available');

@@ -357,8 +357,12 @@ export function isValidJwtShape(token: string): boolean {
   if (parts.length !== 3) {
     return false;
   }
+  const payloadSegment = parts[1];
+  if (!payloadSegment) {
+    return false;
+  }
   try {
-    const payload = Buffer.from(parts[1], 'base64').toString();
+    const payload = Buffer.from(payloadSegment, 'base64').toString();
     JSON.parse(payload);
     return true;
   } catch {
@@ -410,7 +414,11 @@ export async function verifyToken(config: OAuthConfig, token: string): Promise<b
 export function extractUserProfile(token: string): UserProfile | null {
   try {
     // Decode JWT payload (middle part)
-    const payload = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
+    const payloadSegment = token.split('.')[1];
+    if (!payloadSegment) {
+      return null;
+    }
+    const payload = JSON.parse(Buffer.from(payloadSegment, 'base64').toString());
 
     const profile = {
       name: payload.name || payload.given_name || payload.nickname,
@@ -433,7 +441,11 @@ export function extractUserProfile(token: string): UserProfile | null {
  */
 export function isTokenExpired(token: string): boolean {
   try {
-    const payload = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
+    const payloadSegment = token.split('.')[1];
+    if (!payloadSegment) {
+      return true;
+    }
+    const payload = JSON.parse(Buffer.from(payloadSegment, 'base64').toString());
     const now = Math.floor(Date.now() / 1000);
     return payload.exp !== undefined && payload.exp < now;
   } catch {
